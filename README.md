@@ -38,7 +38,7 @@ experience or that I don't always use.
 ### fzf
 - Used for adding massive functionality and efficiency to bash, vim, and tmux
 - See https://github.com/junegunn/fzf.git
-- Also suggested is the extra plugin [fzf.vim|https://github.com/junegunn/fzf.vim] which adds some useful wrappers
+- Also suggested is the extra plugin [fzf.vim](https://github.com/junegunn/fzf.vim) which adds some useful wrappers
   for the very basic vim integration provided in the main repo. The included vimrc uses this plugin but won't break
   without it
 
