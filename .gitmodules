@@ -1,0 +1,12 @@
+[submodule "configs/.vim/pack/colorschemes/start/gruvbox"]
+	path = configs/.vim/pack/colorschemes/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule "configs/.vim/pack/plugins/start/fugitive"]
+	path = configs/.vim/pack/git-plugins/start/fugitive
+	url = https://tpope.io/vim/fugitive.git
+[submodule "configs/.vim/pack/git-plugins/start/ale"]
+	path = configs/.vim/pack/git-plugins/start/ale
+	url = https://github.com/dense-analysis/ale.git
+[submodule "configs/.vim/pack/git-plugins/start/fzf.vim"]
+	path = configs/.vim/pack/git-plugins/start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git

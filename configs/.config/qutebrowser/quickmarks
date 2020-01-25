@@ -1,0 +1,11 @@
+jenkins http://wtlmb-fpga-build1:8080/
+jenkcon http://wtlmb-5-bld1:8081/
+jenkconprop http://wtlmb-5-bld1:8080/job/JenkCon_propagate/build?delay=0sec
+dinidriverdeploy http://wtlmb-akbld3:8080/login?from=%2Fjob%2Fdeploy_dini_driver%2F
+wiki http://wiki.wolve.com
+code http://code.wolve.com
+artifactory http://wtlmb-fpga-build2:8081/artifactory/webapp/#/login
+bookmarks qute://bookmarks/
+owa https://webmail.wolve.com/owa/auth/logon.aspx?url=https://webmail.wolve.com/owa/&reason=0
+uf12% https://soundcloud.com/
+arket http://code.wolve.com/market-data/md

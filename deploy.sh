@@ -1,30 +1,44 @@
 #! /usr/bin/env bash
 
-# Files and directories added here will be symlinked into the current user's home directory
+# Files and directories added here will be symlinked into the current user's home directory. If you want to link some
+# portion of a directory you must specify links explicitly for those files and create the containing directory if it
+# does not yet exist.
 declare -a TARGETS=(".vim"
                     ".vimrc"
+                    ".profile"
                     ".bashrc"
-                    ".bash_profile"
                     ".bash_completion"
+                    ".bash_prompt"
+                    ".bash_logout"
+                    ".bashrc.d/alias.bashrc"
+                    ".bashrc.d/app_defaults.bashrc"
+                    ".bashrc.d/fzf.bashrc"
+                    ".bashrc.d/history.bashrc"
+                    ".bashrc.d/less.bashrc"
+                    ".bashrc.d/shopt.bashrc"
                     ".tmux.conf"
                     ".global_ignore"
                     ".inputrc"
                     ".taskrc"
                     ".config/flake8"
-                    ".config/neomutt"
-                    ".config/profanity"
+                    ".config/htop"
+                    ".config/dunst"
                     ".config/qutebrowser"
                     ".config/termite"
                     ".config/zathura"
+                    ".config/user-dirs.dirs"
+                    ".config/fontconfig"
                    )
-
-if [ "jweil" != "$(whoami)" ]; then
-	echo "You aren't jweil... be careful"
-	exit 1
-fi
 
 if [ ! "$1" == "--link" ]; then
     echo "Re-run with \'--link\' parameter to execute the below commands:"
+else
+    read -r -p "Running as $(whoami), continue? [y/N] " RESPONSE
+    if [[ ! "$RESPONSE" =~ ^([yY][eE][sS]|[yY])$ ]]
+    then
+        echo "Aborting..."
+        exit 0
+    fi
 fi
 
 for TARGET in "${TARGETS[@]}"; do

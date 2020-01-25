@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# vim: set syntax=bash
+
+export PROMPT_COMMAND=__prompt_command
+
+git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+function __prompt_command() {
+    local EXIT="$?"
+    PS1=""
+
+    local RCol='\[\e[0m\]'   # Text Reset 
+
+    # Gruvbox colors
+    local Gry='\[\033[0;38;5;241m\]'
+    local LGry='\[\033[0;38;5;243m\]'
+    local Red='\[\033[0;38;5;124m\]'
+    local Gre='\[\033[0;38;5;142m\]'
+    local Ora='\[\033[0;38;5;208m\]'
+    local Blu='\[\033[0;38;5;109m\]'
+    local Whi='\[\033[0;38;5;223m\]'
+    local Yel='\[\033[0;38;5;214m\]'
+
+    # Add date and time
+    PS1+="${LGry}[\D{%m.%d} \t]${RCol} "
+
+    # Add user@host
+    PS1+="${Gre}\u${RCol}${LGry}@${RCol}${Ora}\h${RCol} "
+
+    # Add number of stopped+running jobs if non-zero
+    local JOBS=""
+    JOBS=$(jobs | wc -l)
+    if [ "${JOBS}" != 0 ]; then
+        PS1+="${Yel}(${JOBS})${RCol}"
+    fi
+
+    # Add returncode if non-zero
+    if [ "${EXIT}" != 0 ]; then
+        PS1+="${Red}^${EXIT}${RCol} "
+    fi
+    
+    # Add separator
+    PS1+="${LGry}:${RCol}"
+
+    # Add current git branch if exists
+    PS1+="${Blu}\$(git_branch)${RCol} "
+    
+    PS1+="${LGry}\w\n${RCol}"
+    
+    if [ "${EUID}" -eq 0 ]; then
+        PS1+="${Red}#${RCol} "
+    else
+        PS1+="${LGry}>${RCol} "
+    fi
+    
+    PS1+="${RCol}${Whi}"
+}

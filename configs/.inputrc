@@ -1,0 +1,5 @@
+# Configuration for GNU readline
+#
+# This file is automatically sourced by any program which uses the readline library
+
+set editing-mode vi
