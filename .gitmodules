@@ -10,3 +10,6 @@
 [submodule "configs/.vim/pack/git-plugins/start/fzf.vim"]
 	path = configs/.vim/pack/git-plugins/start/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
+[submodule "configs/.vim/pack/git-plugins/start/vimwiki"]
+	path = configs/.vim/pack/git-plugins/start/vimwiki
+	url = https://github.com/vimwiki/vimwiki.git
