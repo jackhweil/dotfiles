@@ -10,6 +10,11 @@ let g:ale_enabled = 0                               " make ALE off by default, e
 let g:ale_open_list = 1                             " use quickfix list instead of location list
 let g:ale_lint_on_text_changed = 'never'            " wait for save to lint
 let g:ale_echo_msg_format = '[%linter% %code%] %s'  " show which linter to distinguish errors
+
+" Set root directory to store text files
+" Set syntax version
+" Set text file extensions
+let g:vimwiki_list = [{'path': '~/notes/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 "}}}
 
 "{{{ Vim Options
