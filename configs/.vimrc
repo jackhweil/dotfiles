@@ -14,7 +14,10 @@ let g:ale_echo_msg_format = '[%linter% %code%] %s'  " show which linter to disti
 " Set root directory to store text files
 " Set syntax version
 " Set text file extensions
-let g:vimwiki_list = [{'path': '~/notes/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/notes/vimwiki/', 'syntax': 'default', 'ext': '.wiki'}]
+
+" Enable basic fzf integration
+set rtp+=~/.local/src/fzf
 "}}}
 
 "{{{ Vim Options
@@ -169,7 +172,7 @@ endfunction
 
 function UpdateGitFileDiffers()
     let l:this_filename = expand('%')
-    let l:diff_command = "git diff --quiet -- ".shellescape(l:this_filename)
+    let l:diff_command = "git diff-files --no-ext-diff --quiet -- ".shellescape(l:this_filename)
     let l:output = system(l:diff_command)
     if v:shell_error == 1
         let b:git_file_differs = 1
@@ -190,7 +193,7 @@ function UpdateGitBranch()
     else
         let b:git_branch = ""
     endif
-    let l:git_output = system("git diff --quiet")
+    let l:git_output = system("git diff-files --no-ext-diff --quiet && git diff-index --no-ext-diff --quiet --cached HEAD")
     if v:shell_error == 1
         let b:git_working_tree_differs = 1
     else
