@@ -19,14 +19,14 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# Source global bash completions
-if [ -d /etc/bash_completion.d ]; then
-    include_dir /etc/bash_completion.d/*
-fi
-
 # Source extended completion from bash-completion package
 if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
+fi
+
+# Source global bash completions
+if [ -d /etc/bash_completion.d ]; then
+    include_dir /etc/bash_completion.d/*
 fi
 
 # Source any local bash completion scripts
