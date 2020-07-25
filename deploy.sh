@@ -42,8 +42,15 @@ else
 fi
 
 for TARGET in "${TARGETS[@]}"; do
+    TARGET_DIR=$(dirname "${HOME:?}/${TARGET}")
+    if [ ! -d "${TARGET_DIR}" ]; then
+        PRE_CMD="mkdir -p ${TARGET_DIR} && "
+    else
+        PRE_CMD=""
+    fi
+
     # We need to delete here, instead of use ln --force or directories go inside the target if it exists
-    CMD="rm -rf "${HOME:?}/${TARGET:?}" && ln -sv "${PWD}/configs/${TARGET}" "${HOME}/${TARGET}""
+    CMD="${PRE_CMD}rm -rf "${HOME:?}/${TARGET:?}" && ln -sv "${PWD}/configs/${TARGET}" "${HOME}/${TARGET}""
     if [ "$1" == "--link" ]; then
         eval "$CMD"
     else
