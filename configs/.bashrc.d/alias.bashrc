@@ -13,3 +13,6 @@ alias s="ls"
 
 # Expand current directory structure in tree form
 alias treed="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+
+# Search for TODOs or FIXMEs
+alias greptodo="rg '(TODO|FIXME)\([a-z]+\)' ."
