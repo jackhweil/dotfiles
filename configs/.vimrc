@@ -10,6 +10,7 @@ let g:ale_enabled = 0                               " make ALE off by default, e
 let g:ale_open_list = 1                             " use quickfix list instead of location list
 let g:ale_lint_on_text_changed = 'never'            " wait for save to lint
 let g:ale_echo_msg_format = '[%linter% %code%] %s'  " show which linter to distinguish errors
+let g:ale_python_flake8_options = '--ignore=E402,W503'   " ignore import at top of file error
 
 " Set root directory to store text files
 " Set syntax version
@@ -121,91 +122,12 @@ set background=dark
 silent! colorscheme gruvbox " fail silently if colorscheme doesn't exist
 "}}}
 
-"{{{ Status Line
-function StatusLineGitBranch()
-    let l:status_string = "\ "
-    if VarIfExists("b:git_working_tree_differs", 0)
-        let l:status_string .= "%#Question#"       " change color if current file differs in git
-        let l:status_string .= "%{VarIfExists(\"b:git_branch\", \"\")}"   " current detected git branch
-        let l:status_string .= "%#LineNr#"         " change color back
-    else
-        let l:status_string .= "%{VarIfExists(\"b:git_branch\", \"\")}"   " current detected git branch
-    endif
-    let l:status_string .= "\ "
-    return l:status_string
-endfunction
-
-function StatusLine()
-    let l:status_string = "%#LineNr#"                         " use line numbering highlight group
-    let l:status_string .= StatusLineGitBranch()
-    let l:status_string .= "\%0.60F"                          " full file name up to 60 chars
-    let l:status_string .= "\ ⇄"
-    let l:status_string .= "\ b%-1.3n\ "                      " b<buffer number> capped at 3 digits
-    let l:status_string .= "%="                               " right align from here on
-    let l:status_string .= "%h%m%r%w"                         " flags
-    let l:status_string .= "[%{strlen(&ft)?&ft:'none'},"      " filetype
-    let l:status_string .= "%{strlen(&fenc)?&fenc:&enc},"     " encoding
-    let l:status_string .= "%{&fileformat}]"                  " file format
-    let l:status_string .= "\ %p%%"                           " percentage through file
-    let l:status_string .= "\ [%l/%L]"                        " line/numlines
-    let l:status_string .= "\ [%c/%{strwidth(getline('.'))}]" " col/numcols
-    let l:status_string .= "\ %*"
-    return l:status_string
-endfunction
-
-if g:native_status_line
-    set statusline=                 " clear the statusline for when vimrc is reloaded
-    set statusline=%!StatusLine()
-endif
-"}}}
-
-"{{{ Helper Functions
-function VarIfExists(varname, ...)
-    let l:default_value = get(a:, 1, 0)
-
-    if exists(a:varname)
-        return {a:varname}
-    else
-        return l:default_value
-    endif
-endfunction
-
-function UpdateGitFileDiffers()
-    let l:this_filename = expand('%')
-    let l:diff_command = "git diff-files --no-ext-diff --quiet -- ".shellescape(l:this_filename)
-    let l:output = system(l:diff_command)
-    if v:shell_error == 1
-        let b:git_file_differs = 1
-    else
-        let b:git_file_differs = 0
-    endif
-endfunction
-
-augroup AutoUpdateGitFileDiffers
+""{{{ Status Line
+augroup status
     autocmd!
-    autocmd VimEnter,WinEnter,BufWritePost * call UpdateGitFileDiffers()
-augroup END
-
-function UpdateGitBranch()
-    let l:git_output = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-    if strlen(l:git_output) > 0
-        let b:git_branch = l:git_output
-    else
-        let b:git_branch = ""
-    endif
-    let l:git_output = system("git diff-files --no-ext-diff --quiet && git diff-index --no-ext-diff --quiet --cached HEAD")
-    if v:shell_error == 1
-        let b:git_working_tree_differs = 1
-    else
-        let b:git_working_tree_differs = 0
-    endif
-endfunction
-
-augroup AutoUpdateGitBranch
-    autocmd!
-    autocmd VimEnter,ShellCmdPost,WinEnter,FileChangedShell * call UpdateGitBranch()
-augroup END
-"}}}
+    autocmd VimEnter * let &statusline = status#Active()
+    autocmd VimEnter * call status#Autocmd()
+augroup end
 
 " set fold method to marker for this file only, open with all folds closed (foldlevel=0)
 "" vim:fdm=marker:fdl=0
